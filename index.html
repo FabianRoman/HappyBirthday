@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feliz Cumpleaños Anyhella 🎉</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(120deg, #fff1f7, #ffeec9);
+      overflow-x: hidden;
+      position: relative;
+    }
+    header {
+      text-align: center;
+      padding: 40px 20px 20px;
+      animation: fadeIn 2s ease-in-out;
+    }
+    header h1 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 3.5rem;
+      color: #ff69b4;
+    }
+    header p {
+      font-size: 1.3rem;
+      color: #555;
+    }
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 20px;
+      z-index: 2;
+      position: relative;
+    }
+    .gallery img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      transition: transform 0.5s ease;
+      width: 250px;
+    }
+    .gallery img:hover {
+      transform: scale(1.07) rotate(-2deg);
+    }
+    .message {
+      background: #fff0f5;
+      padding: 30px;
+      margin: 30px auto;
+      border-radius: 20px;
+      max-width: 700px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      animation: slideUp 2s ease-out;
+      position: relative;
+      z-index: 2;
+    }
+    .message p {
+      font-size: 1.2rem;
+      line-height: 1.6;
+    }
+    button {
+      background: #ff69b4;
+      color: white;
+      border: none;
+      padding: 15px 25px;
+      font-size: 1rem;
+      margin-top: 20px;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background: #ff1493;
+    }
+    audio {
+      display: none;
+    }
+    .balloons {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .balloon {
+      position: absolute;
+      width: 40px;
+      height: 60px;
+      background: radial-gradient(circle at 30% 30%, #ff69b4, #ff1493);
+      border-radius: 50%;
+    }
+    .balloon::after {
+      content: '';
+      position: absolute;
+      bottom: -15px;
+      left: 50%;
+      width: 2px;
+      height: 20px;
+      background: #aaa;
+    }
+    /* Estilo de las partículas de confeti */
+    .pop {
+      position: absolute;
+      width: 8px;
+      height: 16px;
+      border-radius: 2px;
+      animation: confettiBurst 1.5s ease-out forwards;
+      pointer-events: none;
+      z-index: 1;
+    }
+    @keyframes confettiBurst {
+      0% {
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(var(--dx), var(--dy)) rotate(360deg);
+        opacity: 0;
+      }
+    }
+    .stars {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .star {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: #fffacd;
+      border-radius: 50%;
+      animation: twinkle 2s infinite alternate;
+    }
+    @keyframes twinkle {
+      0% { opacity: 0.2; transform: scale(1); }
+      100% { opacity: 1; transform: scale(1.5); }
+    }
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+    @keyframes slideUp {
+      from {transform: translateY(50px); opacity: 0;}
+      to {transform: translateY(0); opacity: 1;}
+    }
+  </style>
+</head>
+<body>
+  <div class="balloons" id="balloons-container"></div>
+  <div class="stars" id="stars-container"></div>
+  <header>
+    <h1>¡Feliz Cumpleaños Anyhella! 🎂🎈</h1>
+    <p>Una página llena de alegría y magia solo para ti ✨</p>
+  </header>
+  <div class="gallery">
+    <img src="roble.jpeg" alt="Foto 1">
+    <img src="parque.jpeg" alt="Foto 2">
+    <img src="https://via.placeholder.com/300x400?text=Foto+3" alt="Foto 3">
+  </div>
+  <div class="message">
+    <p>Amor mío, hoy celebro el maravilloso día en que llegaste al mundo. Eres mi alegría, mi inspiración y mi lugar seguro. Que cada deseo tuyo se cumpla y que nunca te falte una razón para sonreír.</p>
+    <p style="margin-top: 20px;">Gracias por llenar mi vida de tanta luz. ¡Feliz cumpleaños, princesa! 🎉🎁</p>
+    <button onclick="playMusic()">Haz clic para escuchar nuestra canción 💞</button>
+    <audio id="bg-music" src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" loop></audio>
+  </div>
+  <script>
+    function playMusic() {
+      const music = document.getElementById('bg-music');
+      music.play();
+    }
+    const balloonContainer = document.getElementById('balloons-container');
+    function createConfetti(x, y) {
+      for (let i = 0; i < 20; i++) {
+        const confetti = document.createElement('div');
+        confetti.classList.add('pop');
+        confetti.style.backgroundColor = ['#f06292', '#ffd54f', '#4fc3f7'][Math.floor(Math.random() * 3)];
+        // Direcciones: dx entre -50 y 50, dy entre 50 y 150 para que caiga hacia abajo
+        const dx = (Math.random() * 100 - 50) + "px";
+        const dy = (Math.random() * 100 + 50) + "px";
+        confetti.style.setProperty('--dx', dx);
+        confetti.style.setProperty('--dy', dy);
+        confetti.style.left = x + "px";
+        confetti.style.top = y + "px";
+        balloonContainer.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 1500);
+      }
+    }
+    function animateBalloon(balloon, explode) {
+      let y = window.innerHeight;
+      const x = Math.random() * (window.innerWidth - 40);
+      balloon.style.left = x + "px";
+      balloon.style.top = y + "px";
+      balloonContainer.appendChild(balloon);
+      const speed = 1 + Math.random() * 1.5;
+      const interval = setInterval(() => {
+        y -= speed;
+        balloon.style.top = y + "px";
+        if (explode && y < window.innerHeight * (Math.random() * 0.5 + 0.2)) {
+          createConfetti(x + 20, y + 30);
+          balloon.remove();
+          clearInterval(interval);
+        }
+        if (y < -100) {
+          balloon.remove();
+          clearInterval(interval);
+        }
+      }, 10);
+    }
+    setInterval(() => {
+      const balloon = document.createElement('div');
+      balloon.classList.add('balloon');
+      const explode = Math.random() < 0.4; // 40% probabilidad de explotar
+      animateBalloon(balloon, explode);
+    }, 800);
+    const starsContainer = document.getElementById('stars-container');
+    for (let i = 0; i < 80; i++) {
+      const star = document.createElement('div');
+      star.classList.add('star');
+      star.style.top = Math.random() * 100 + "vh";
+      star.style.left = Math.random() * 100 + "vw";
+      star.style.animationDuration = (Math.random() * 2 + 1) + "s";
+      starsContainer.appendChild(star);
+    }
+  </script>
+</body>
+</html>
+
+
+
+
