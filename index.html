@@ -1,31 +1,51 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Feliz Cumpleaños Anyhella 🎉</title>
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;600&display=swap" rel="stylesheet" />
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Poppins', sans-serif;
       background: linear-gradient(120deg, #fff1f7, #ffeec9);
       overflow-x: hidden;
       position: relative;
     }
+    #sorpresa {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: #fff0f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Great Vibes', cursive;
+      font-size: 4rem;
+      color: #ff1493;
+      z-index: 9999;
+      animation: desaparecer 3s ease-out forwards;
+    }
+    @keyframes desaparecer {
+      0%, 80% { opacity: 1; }
+      100% { opacity: 0; visibility: hidden; }
+    }
+    .contenido {
+      opacity: 0;
+      animation: aparecer 1s ease-out 3s forwards;
+    }
+    @keyframes aparecer { to { opacity: 1; } }
     header {
       text-align: center;
       padding: 40px 20px 20px;
       animation: fadeIn 2s ease-in-out;
     }
-    header h1 {
+    header h1, h2 {
       font-family: 'Great Vibes', cursive;
       font-size: 3.5rem;
       color: #ff69b4;
+      margin-bottom: 10px;
     }
     header p {
       font-size: 1.3rem;
@@ -85,15 +105,14 @@
     audio {
       display: none;
     }
-    .balloons {
+    .balloons, .stars {
       position: fixed;
-      bottom: 0;
-      left: 0;
       width: 100%;
       height: 100%;
       pointer-events: none;
       z-index: 0;
     }
+    .balloons { bottom: 0; left: 0; }
     .balloon {
       position: absolute;
       width: 40px;
@@ -110,34 +129,22 @@
       height: 20px;
       background: #aaa;
     }
-    /* Estilo de las partículas de confeti */
     .pop {
       position: absolute;
-      width: 8px;
-      height: 16px;
-      border-radius: 2px;
-      animation: confettiBurst 1.5s ease-out forwards;
+      width: var(--size, 4px);
+      height: var(--size, 4px);
+      background-color: var(--color, #f06292);
+      border-radius: 0;
+      image-rendering: pixelated;
+      opacity: 1;
+      animation: confettiBurst 1.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
       pointer-events: none;
-      z-index: 1;
+      z-index: 5;
     }
     @keyframes confettiBurst {
-      0% {
-        transform: translate(0, 0) rotate(0deg);
-        opacity: 1;
-      }
-      100% {
-        transform: translate(var(--dx), var(--dy)) rotate(360deg);
-        opacity: 0;
-      }
-    }
-    .stars {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 0;
+      0% { transform: translate(0, 0) rotate(0deg); }
+      40% { transform: translate(var(--dx), var(--dy)) rotate(var(--rot)); }
+      100% { transform: translate(var(--dx), calc(var(--dy) + 80px)) rotate(var(--rot)); opacity: 0; }
     }
     .star {
       position: absolute;
@@ -162,56 +169,67 @@
   </style>
 </head>
 <body>
-  <div class="balloons" id="balloons-container"></div>
-  <div class="stars" id="stars-container"></div>
-  <header>
-    <h1>¡Feliz Cumpleaños Anyhella! 🎂🎈</h1>
-    <p>Una página llena de alegría y magia solo para ti ✨</p>
-  </header>
-  <div class="gallery">
-    <img src="roble.jpeg" alt="Foto 1">
-    <img src="parque.jpeg" alt="Foto 2">
-    <img src="https://via.placeholder.com/300x400?text=Foto+3" alt="Foto 3">
+  <div id="sorpresa"><span id="sorpresa-text">¡Sorpresa! 🎉</span></div>
+  <div class="contenido">
+    <div class="balloons" id="balloons-container"></div>
+    <div class="stars" id="stars-container"></div>
+    <header>
+      <h1>¡Feliz Cumpleaños!</h1>
+      <h2>🎂 Anyhella 🎈</h2>
+      <p>Tu día merece magia, sonrisas y alegría 🌟💖</p>
+    </header>
+    <div class="gallery">
+      <img src="cartagena.jpeg" alt="Foto 1" />
+      <img src="parque.jpeg" alt="Foto 2" />
+      <img src="parque2.jpeg" alt="Foto 3" />
+    </div>
+    <div class="message">
+      <p>Amor mío, hoy celebro el maravilloso día en que llegaste al mundo. Eres mi alegría, mi inspiración y mi lugar seguro. Que cada deseo tuyo se cumpla y que nunca te falte una razón para sonreír.</p>
+      <p style="margin-top: 20px;">Gracias por llenar mi vida de tanta luz. ¡Feliz cumpleaños, reina! ❤️🎉🎁</p>
+      <audio id="birthday-audio" src="prueba1.mp3" autoplay></audio>
+      <button onclick="document.getElementById('birthday-audio').play()">Haz clic para escuchar nuestra canción 💞</button>
+    </div>
   </div>
-  <div class="message">
-    <p>Amor mío, hoy celebro el maravilloso día en que llegaste al mundo. Eres mi alegría, mi inspiración y mi lugar seguro. Que cada deseo tuyo se cumpla y que nunca te falte una razón para sonreír.</p>
-    <p style="margin-top: 20px;">Gracias por llenar mi vida de tanta luz. ¡Feliz cumpleaños, princesa! 🎉🎁</p>
-    <button onclick="playMusic()">Haz clic para escuchar nuestra canción 💞</button>
-    <audio id="bg-music" src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" loop></audio>
-  </div>
+
   <script>
-    function playMusic() {
-      const music = document.getElementById('bg-music');
-      music.play();
-    }
     const balloonContainer = document.getElementById('balloons-container');
+    const gallery = document.querySelector('.gallery');
+    const galleryRect = gallery.getBoundingClientRect();
+
     function createConfetti(x, y) {
-      for (let i = 0; i < 20; i++) {
+      const colors = ['#f06292', '#ffd54f', '#4fc3f7', '#81c784', '#ba68c8', '#fff176', '#ff8a65'];
+      for (let i = 0; i < 40; i++) {
         const confetti = document.createElement('div');
         confetti.classList.add('pop');
-        confetti.style.backgroundColor = ['#f06292', '#ffd54f', '#4fc3f7'][Math.floor(Math.random() * 3)];
-        // Direcciones: dx entre -50 y 50, dy entre 50 y 150 para que caiga hacia abajo
-        const dx = (Math.random() * 100 - 50) + "px";
-        const dy = (Math.random() * 100 + 50) + "px";
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        const size = Math.random() * 4 + 4;
+        confetti.style.setProperty('--color', color);
+        confetti.style.setProperty('--size', `${size}px`);
+        const dx = (Math.random() * 300 - 150) + "px";
+        const dy = (Math.random() * 100 - 150) + "px";
+        const rot = `${Math.random() * 720 - 360}deg`;
         confetti.style.setProperty('--dx', dx);
         confetti.style.setProperty('--dy', dy);
+        confetti.style.setProperty('--rot', rot);
         confetti.style.left = x + "px";
         confetti.style.top = y + "px";
         balloonContainer.appendChild(confetti);
-        setTimeout(() => confetti.remove(), 1500);
+        setTimeout(() => confetti.remove(), 2200);
       }
     }
+
     function animateBalloon(balloon, explode) {
       let y = window.innerHeight;
       const x = Math.random() * (window.innerWidth - 40);
       balloon.style.left = x + "px";
       balloon.style.top = y + "px";
       balloonContainer.appendChild(balloon);
+
       const speed = 1 + Math.random() * 1.5;
       const interval = setInterval(() => {
         y -= speed;
         balloon.style.top = y + "px";
-        if (explode && y < window.innerHeight * (Math.random() * 0.5 + 0.2)) {
+        if (explode && y < galleryRect.top) {
           createConfetti(x + 20, y + 30);
           balloon.remove();
           clearInterval(interval);
@@ -222,12 +240,14 @@
         }
       }, 10);
     }
+
     setInterval(() => {
       const balloon = document.createElement('div');
       balloon.classList.add('balloon');
-      const explode = Math.random() < 0.4; // 40% probabilidad de explotar
+      const explode = Math.random() < 0.6;
       animateBalloon(balloon, explode);
     }, 800);
+
     const starsContainer = document.getElementById('stars-container');
     for (let i = 0; i < 80; i++) {
       const star = document.createElement('div');
@@ -237,9 +257,36 @@
       star.style.animationDuration = (Math.random() * 2 + 1) + "s";
       starsContainer.appendChild(star);
     }
+
+    window.addEventListener("DOMContentLoaded", () => {
+  const sorpresaText = document.getElementById("sorpresa-text");
+  const rect = sorpresaText.getBoundingClientRect();
+  const x = rect.left + rect.width / 2;
+  const y = rect.top + rect.height / 2;
+
+  setTimeout(() => {
+    createConfetti(x, y);
+
+    // Intenta reproducir el audio al mostrar el "¡Sorpresa!"
+    const audio = document.getElementById("birthday-audio");
+    if (audio) {
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise.catch((error) => {
+          console.log("El navegador bloqueó la reproducción automática 😢", error);
+        });
+      }
+    }
+  }, 600);
+});
+
   </script>
 </body>
 </html>
+
+
+
+
 
 
 
