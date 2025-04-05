@@ -228,7 +228,7 @@
       <p>Amor mío, hoy celebro el maravilloso día en que llegaste al mundo. Eres mi alegría, mi inspiración y mi lugar seguro. Que cada deseo tuyo se cumpla y que nunca te falte una razón para sonreír.</p>
       <p style="margin-top: 20px;">Gracias por llenar mi vida de tanta luz. ¡Feliz cumpleaños, reina! ❤️🎉🎁</p>
       <audio id="birthday-audio" src="prueba1.mp3" autoplay></audio>
-      <button onclick="document.getElementById('birthday-audio').play()">Haz clic para escuchar nuestra canción 💞</button>
+      <button onclick="document.getElementById('birthday-audio').play()">Toca aqui para escuchar tu canción 💞</button>
     </div>
   </div>
 
@@ -236,7 +236,19 @@
     // Confetti y globos
     const balloonContainer = document.getElementById('balloons-container');
     const gallery = document.querySelector('.gallery');
-    const galleryRect = gallery.getBoundingClientRect();
+    function getVisiblePhotoSectionRect() {
+  const gallery = document.querySelector('.gallery');
+  const carousel = document.querySelector('.carousel-container');
+  const galleryStyle = getComputedStyle(gallery);
+  const carouselStyle = getComputedStyle(carousel);
+
+  if (galleryStyle.display !== 'none') {
+    return gallery.getBoundingClientRect();
+  } else {
+    return carousel.getBoundingClientRect();
+  }
+}
+
 
     function createConfetti(x, y) {
       const colors = ['#f06292', '#ffd54f', '#4fc3f7', '#81c784', '#ba68c8', '#fff176', '#ff8a65'];
@@ -271,13 +283,15 @@
       const interval = setInterval(() => {
         y -= speed;
         balloon.style.top = y + "px";
-        if (explode && y < galleryRect.top) {
-          createConfetti(x + 20, y + 30);
-          balloon.remove();
-          clearInterval(interval);
-        }
+        const photoRect = getVisiblePhotoSectionRect();
+if (explode && y < photoRect.top) {
+  createConfetti(x + 20, y + 30);
+  balloon.remove();
+  clearInterval(interval);
+}
+
         if (y < -100) {
-          balloon.remove();
+          balloon.remove();+
           clearInterval(interval);
         }
       }, 10);
@@ -318,17 +332,24 @@
             });
           }
         }
+        iniciarCarrusel();
       }, 600);
     });
 
-    // Carrusel para móviles
-    let slideIndex = 0;
-    setInterval(() => {
-      const slide = document.getElementById('carousel-slide');
-      const totalSlides = slide.children.length;
-      slideIndex = (slideIndex + 1) % totalSlides;
-      slide.style.transform = `translateX(-${slideIndex * 100}%)`;
-    }, 3000);
+   // Carrusel controlado después de "¡Sorpresa!"
+let carouselInterval;
+
+function iniciarCarrusel() {
+  let slideIndex = 0;
+  const slide = document.getElementById('carousel-slide');
+  const totalSlides = slide.children.length;
+
+  carouselInterval = setInterval(() => {
+    slideIndex = (slideIndex + 1) % totalSlides;
+    slide.style.transform = `translateX(-${slideIndex * 100}%)`;
+  }, 3000);
+}
+
   </script>
 </body>
 </html>
