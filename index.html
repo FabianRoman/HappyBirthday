@@ -51,6 +51,8 @@
       font-size: 1.3rem;
       color: #555;
     }
+
+    /* Galería para pantallas grandes */
     .gallery {
       display: flex;
       flex-wrap: wrap;
@@ -71,6 +73,32 @@
     .gallery img:hover {
       transform: scale(1.07) rotate(-2deg);
     }
+
+    /* Carrusel solo visible en móviles */
+    .carousel-container {
+      display: none;
+      position: relative;
+      overflow: hidden;
+      max-width: 300px;
+      margin: 0 auto;
+      padding: 20px 0;
+    }
+    .carousel-slide {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+    .carousel-slide img {
+      min-width: 100%;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    /* Solo se muestra el carrusel en pantallas pequeñas */
+    @media (max-width: 768px) {
+      .gallery { display: none; }
+      .carousel-container { display: block; }
+    }
+
     .message {
       background: #fff0f5;
       padding: 30px;
@@ -102,9 +130,7 @@
     button:hover {
       background: #ff1493;
     }
-    audio {
-      display: none;
-    }
+    audio { display: none; }
     .balloons, .stars {
       position: fixed;
       width: 100%;
@@ -178,11 +204,26 @@
       <h2>🎂 Anyhella 🎈</h2>
       <p>Tu día merece magia, sonrisas y alegría 🌟💖</p>
     </header>
+
+    <!-- Galería normal -->
     <div class="gallery">
       <img src="cartagena.jpeg" alt="Foto 1" />
       <img src="parque.jpeg" alt="Foto 2" />
       <img src="parque2.jpeg" alt="Foto 3" />
+      <img src="roble.jpeg" alt="Foto 4" />
+
     </div>
+
+    <!-- Carrusel para móviles -->
+    <div class="carousel-container">
+      <div class="carousel-slide" id="carousel-slide">
+        <img src="cartagena.jpeg" alt="Foto 1" />
+        <img src="parque.jpeg" alt="Foto 2" />
+        <img src="parque2.jpeg" alt="Foto 3" />
+        <img src="roble.jpeg" alt="Foto 4" />
+      </div>
+    </div>
+
     <div class="message">
       <p>Amor mío, hoy celebro el maravilloso día en que llegaste al mundo. Eres mi alegría, mi inspiración y mi lugar seguro. Que cada deseo tuyo se cumpla y que nunca te falte una razón para sonreír.</p>
       <p style="margin-top: 20px;">Gracias por llenar mi vida de tanta luz. ¡Feliz cumpleaños, reina! ❤️🎉🎁</p>
@@ -192,6 +233,7 @@
   </div>
 
   <script>
+    // Confetti y globos
     const balloonContainer = document.getElementById('balloons-container');
     const gallery = document.querySelector('.gallery');
     const galleryRect = gallery.getBoundingClientRect();
@@ -258,28 +300,35 @@
       starsContainer.appendChild(star);
     }
 
+    // Confetti + música tras "¡Sorpresa!"
     window.addEventListener("DOMContentLoaded", () => {
-  const sorpresaText = document.getElementById("sorpresa-text");
-  const rect = sorpresaText.getBoundingClientRect();
-  const x = rect.left + rect.width / 2;
-  const y = rect.top + rect.height / 2;
+      const sorpresaText = document.getElementById("sorpresa-text");
+      const rect = sorpresaText.getBoundingClientRect();
+      const x = rect.left + rect.width / 2;
+      const y = rect.top + rect.height / 2;
 
-  setTimeout(() => {
-    createConfetti(x, y);
+      setTimeout(() => {
+        createConfetti(x, y);
+        const audio = document.getElementById("birthday-audio");
+        if (audio) {
+          const playPromise = audio.play();
+          if (playPromise !== undefined) {
+            playPromise.catch((error) => {
+              console.log("El navegador bloqueó la reproducción automática 😢", error);
+            });
+          }
+        }
+      }, 600);
+    });
 
-    // Intenta reproducir el audio al mostrar el "¡Sorpresa!"
-    const audio = document.getElementById("birthday-audio");
-    if (audio) {
-      const playPromise = audio.play();
-      if (playPromise !== undefined) {
-        playPromise.catch((error) => {
-          console.log("El navegador bloqueó la reproducción automática 😢", error);
-        });
-      }
-    }
-  }, 600);
-});
-
+    // Carrusel para móviles
+    let slideIndex = 0;
+    setInterval(() => {
+      const slide = document.getElementById('carousel-slide');
+      const totalSlides = slide.children.length;
+      slideIndex = (slideIndex + 1) % totalSlides;
+      slide.style.transform = `translateX(-${slideIndex * 100}%)`;
+    }, 3000);
   </script>
 </body>
 </html>
